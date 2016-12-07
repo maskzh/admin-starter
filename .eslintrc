@@ -1,0 +1,21 @@
+{
+  "extends": "eslint-config-airbnb",
+  "parser": "babel-eslint",
+  "plugins": ["react", "import"],
+  "rules": {
+    # "comma-dangle": 0,
+    # "no-console": 0,
+    # "no-alert": 0,
+    # "id-length": 0,
+    # "semi": [2, "never"],
+    # "no-param-reassign": [2, { "props": false }], # 参数不可修改，属性可修改
+    # "no-underscore-dangle": 0,                    # 允许 _
+    # "react/jsx-first-prop-new-line": 0,
+    # "global-require": 0,
+    #
+    # "no-class-assign": 0,
+    # "react/prop-types": 0,
+    # "react/prefer-stateless-function": 0,
+    # "react/jsx-no-bind": 0
+  }
+}
