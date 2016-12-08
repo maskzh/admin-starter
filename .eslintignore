@@ -3,3 +3,4 @@ build
 mock
 proxy.config.js
 webpack.config.js
+*.test.js

@@ -3,11 +3,8 @@ import { connect } from 'dva'
 import classnames from 'classnames'
 import { Spin } from 'antd'
 import Login from '../Login'
-import { Header, Footer, Sider } from '../../components/Layout'
+import { Header, Bread, Footer, Sider } from '../../components/Layout'
 import './App.css'
-
-// Bread,
-// <Bread location={location} />
 
 const App = ({ children, location, dispatch, app }) => {
   const { login, loading, loginButtonLoading, user, siderFold, darkTheme } = app
@@ -46,6 +43,7 @@ const App = ({ children, location, dispatch, app }) => {
       </aside>
       <div className="App-main">
         <Header {...headerProps} />
+        <Bread location={location} />
         <div className="App-container">
           <div className="App-content">
             {children}

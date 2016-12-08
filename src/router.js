@@ -1,13 +1,18 @@
 import React, { PropTypes } from 'react'
-import { Router, Route } from 'dva/router'
+import { Router, Route, IndexRedirect } from 'dva/router'
 import App from './routes/App'
-// import Error from './routes/Error'
-// import Dashboard from './routes/dashboard'
+import Error from './routes/Error'
+import Dashboard from './routes/Dashboard'
 // import Users from './routes/users'
 
 const AppRouter = ({ history }) =>
   <Router history={history}>
-    <Route path="/" component={App} />
+    <Route path="/" component={App}>
+      <IndexRedirect to="/dashboard" />
+      <Route path="dashboard" component={Dashboard} />
+      {/* <Route path="/users" component={Users} /> */}
+      <Route path="*" component={Error} />
+    </Route>
   </Router>
 
 AppRouter.propTypes = {
@@ -15,8 +20,3 @@ AppRouter.propTypes = {
 }
 
 export default AppRouter
-
-// <IndexRedirect to="/dashboard" />
-// <Route path="dashboard" component={ Dashboard }/>
-// <Route path="/users" component={ Users } />
-// <Route path="*" component={ Error } />
