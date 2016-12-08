@@ -1,0 +1,26 @@
+general:
+  branches:
+    only:
+      - master
+      - dev
+    ignore:
+      - dist
+
+machine:
+  environment:
+    GH_TOKEN: 8af5e2cf1e6964fcfe6cffe346e6da971b3b02f6
+    GH_REF: github.com/maskzh/qianpai.git
+  node:
+    version: 6
+
+deployment:
+  staging:
+    branch: dev
+    commands:
+      - npm run build
+      - cd dist && tar cvf qianpai.tar * && mv qianpai.tar ../
+      - cp qianpai.tar $CIRCLE_ARTIFACTS
+      - cd dist && git init && git config user.name "maskzh" && git config user.email "maskzh@gmail.com" && git add . && git commit -m "build" && git checkout -b dist && git push -f "https://${GH_TOKEN}@${GH_REF}" dist
+  production:
+    branch: master
+    commands:

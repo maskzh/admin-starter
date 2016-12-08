@@ -1,0 +1,83 @@
+.App-sider {
+  width: 224px;
+  background: #404040;
+  position: absolute;
+  overflow: visible;
+  padding-bottom: 24px;
+  height: 100vh;
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  box-shadow: 4px 4px 20px 0 rgba(0,0,0,0.01);
+}
+
+.App-sider.light {
+  background: #fff;
+}
+
+.App-sider.light .App-switch-theme {
+  background: #fff;
+  border-top: solid 1px #f8f8f8;
+}
+
+.App-sider .App-sider-logo {
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  cursor: pointer;
+  margin: 28px 0;
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  overflow: hidden;
+}
+
+.App-sider .App-sider-logo img {
+  width: 40px;
+  margin-right: 8px;
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.App-sider .App-sider-logo span {
+  vertical-align: text-bottom;
+  font-size: 16px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.App-sider .App-sider-logo .anticon {
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.App-sider .App-switch-theme {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 48px;
+  background-color: #494949;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 0 24px;
+  overflow: hidden;
+}
+
+.App-sider .App-switch-theme span {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.App-sider .App-switch-theme .anticon {
+  min-width: 14px;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.App-sider .ant-menu {
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.App-sider .ant-menu .ant-menu-item,
+.App-sider .ant-menu .ant-menu-submenu-title {
+  overflow: hidden;
+  white-space: normal;
+}
+.App-sider .ant-menu-root > .ant-menu-submenu-vertical > .ant-menu-submenu-title:after {
+  display: none;
+}
