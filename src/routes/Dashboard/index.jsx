@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Card } from 'antd'
 import Sale from './components/Sale'
-import './dashboard.css'
+import './style.css'
 
 const Dashboard = () =>
   <div>

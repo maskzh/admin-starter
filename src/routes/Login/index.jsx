@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Button, Form, Input } from 'antd'
 import sha1 from 'sha1'
-import './login.css'
+import './style.css'
 
 const FormItem = Form.Item
 

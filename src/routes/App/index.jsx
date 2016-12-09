@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { Spin } from 'antd'
 import Login from '../Login'
 import { Header, Bread, Footer, Sider } from '../../components/Layout'
-import './App.css'
+import './style.css'
 
 const App = ({ children, location, dispatch, app }) => {
   const { login, loading, loginButtonLoading, user, siderFold, darkTheme } = app

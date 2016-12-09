@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Menu, Icon } from 'antd'
-import './header.css'
+import './style.css'
 
 const SubMenu = Menu.SubMenu
 

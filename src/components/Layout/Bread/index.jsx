@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Breadcrumb, Icon } from 'antd'
 import { camelize } from 'humps'
 import menu from '../../../config/menu'
-import './bread.css'
+import './style.css'
 
 const pathSet = []
 

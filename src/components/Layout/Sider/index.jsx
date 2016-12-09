@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Menu, Icon, Switch } from 'antd'
 import { Link } from 'dva/router'
 import menu from '../../../config/menu'
-import './sider.css'
+import './style.css'
 
 const topMenus = menu.map(item => item.key)
 
