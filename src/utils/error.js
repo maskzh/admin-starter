@@ -12,10 +12,10 @@ const error = (err) => {
         <span>{data.message}, <a onClick={() => location.reload()}>重新登陆</a></span>
       ), 0)
     } else {
-      message.error(data.message)
+      message.error(data.message || err.message)
     }
   } else {
-    message.error(error.message)
+    message.error(err.message)
   }
 }
 

@@ -16,5 +16,6 @@ export default function request(url, options) {
 
   return fetch(url, op)
     .then(response => response.json())
-    .then(json => (json.result ? Promise.resolve(json) : Promise.reject(json)))
+    .then(data => (data.result ? { data } : { error: data }))
+    .catch(error => ({ error }))
 }

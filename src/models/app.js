@@ -1,5 +1,5 @@
-import { parse } from 'qs'
 import { login, userInfo, logout } from '../services/app'
+import { error as errorHandler } from '../utils'
 
 export default {
   namespace: 'app',
@@ -7,7 +7,6 @@ export default {
     login: false,
     loading: false,
     user: {},
-    loginButtonLoading: false,
     siderFold: localStorage.getItem('QPSiderFold') === 'true',
     darkTheme: localStorage.getItem('QPDarkTheme') === 'true',
   },
@@ -21,27 +20,31 @@ export default {
   },
   effects: {
     * login({ payload }, { call, put }) {
-      yield put({ type: 'showLoginButtonLoading' })
-      const data = yield call(login, payload)
-      if (data.result) {
+      yield put({ type: 'showLoading' })
+      const { data, error } = yield call(login, payload)
+      if (data) {
         yield put({ type: 'loginSuccess', payload: { ...data.data, token: data.message } })
       } else {
-        yield put({ type: 'loginFail', payload: { data } })
+        yield put({ type: 'hideLoading' })
+        errorHandler(error)
       }
     },
     * queryUser({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(userInfo, payload)
-      if (data.result) {
+      const { data, error } = yield call(userInfo, payload)
+      if (data) {
         yield put({ type: 'loginSuccess', payload: data.data })
       } else {
         yield put({ type: 'hideLoading' })
+        errorHandler(error)
       }
     },
     * logout({ payload }, { call, put }) {
-      const data = yield call(logout, parse(payload))
-      if (data.result) {
+      const { data, error } = yield call(logout, payload)
+      if (data) {
         yield put({ type: 'logoutSuccess' })
+      } else {
+        errorHandler(error)
       }
     },
     * switchSider({ payload }, { put }) {
@@ -61,19 +64,15 @@ export default {
         ...state,
         user: action.payload,
         login: true,
-        loginButtonLoading: false,
+        loading: false,
       }
     },
     logoutSuccess(state) {
+      localStorage.setItem('QPToken', '')
+      localStorage.setItem('QPUserId', '')
       return {
         ...state,
         login: false,
-      }
-    },
-    showLoginButtonLoading(state) {
-      return {
-        ...state,
-        loginButtonLoading: true,
       }
     },
     showLoading(state) {

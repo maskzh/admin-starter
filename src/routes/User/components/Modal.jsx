@@ -11,6 +11,7 @@ const formItemLayout = {
 const modal = ({
   visible,
   item = {},
+  confirmLoading,
   onOk,
   onCancel,
   form: {
@@ -33,6 +34,7 @@ const modal = ({
   const modalOpts = {
     title: '修改用户',
     visible,
+    confirmLoading,
     onOk: handleOk,
     onCancel,
     wrapClassName: 'vertical-center-modal',
@@ -66,6 +68,7 @@ const modal = ({
 
 modal.propTypes = {
   visible: PropTypes.bool,
+  confirmLoading: PropTypes.bool,
   form: PropTypes.shape(Object),
   item: PropTypes.shape(Object),
   onOk: PropTypes.func,

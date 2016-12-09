@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm } from 'antd'
+import { pic } from '../../../utils'
 
 const List = ({
   loading,
@@ -15,8 +16,7 @@ const List = ({
       dataIndex: 'pic',
       key: 'pic',
       width: 64,
-      className: 'lh1 circle',
-      render: text => <img width={24} src={text} alt="avatar" />,
+      render: text => <img className="circle" width="32" height="32" src={pic(text)} alt="avatar" />,
     }, {
       title: '姓名',
       dataIndex: 'name',
@@ -48,7 +48,7 @@ const List = ({
   return (
     <div>
       <Table
-        size="small"
+        size="middle"
         bordered
         columns={columns}
         dataSource={dataSource}

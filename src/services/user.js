@@ -1,5 +1,5 @@
 import { stringify } from 'qs'
-import fetch from '../utils/fetch'
+import { fetch } from '../utils'
 
 export async function query(params) {
   return fetch(`/user?${stringify(params)}`)

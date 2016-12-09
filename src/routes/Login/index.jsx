@@ -6,7 +6,6 @@ import './login.css'
 const FormItem = Form.Item
 
 const login = ({
-  loginButtonLoading,
   onOk,
   form: {
     getFieldDecorator,
@@ -46,7 +45,7 @@ const login = ({
           })(<Input size="large" type="password" placeholder="密码" />)}
         </FormItem>
         <div>
-          <Button type="primary" size="large" onClick={handleOk} loading={loginButtonLoading}>
+          <Button type="primary" size="large" onClick={handleOk}>
             登录
           </Button>
         </div>
@@ -61,7 +60,6 @@ const login = ({
 
 login.propTypes = {
   form: PropTypes.shape(Object),
-  loginButtonLoading: PropTypes.bool,
   onOk: PropTypes.func,
 }
 

@@ -20,7 +20,7 @@ const search = ({
   }
 
   return (
-    <div className="flex">
+    <div className="flex mb20">
       <div className="flex1">
         <Form inline onSubmit={handleSubmit}>
           <Form.Item>
@@ -28,7 +28,9 @@ const search = ({
               initialValue: keyword || '',
             })(<Input />)}
           </Form.Item>
-          <Button type="primary" htmlType="submit">搜索</Button>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">搜索</Button>
+          </Form.Item>
         </Form>
       </div>
       <div>

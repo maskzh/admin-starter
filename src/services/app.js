@@ -1,4 +1,4 @@
-import fetch from '../utils/fetch'
+import { fetch } from '../utils'
 
 export async function login(body) {
   return fetch('/auth/login', { method: 'post', body })

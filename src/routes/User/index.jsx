@@ -1,15 +1,13 @@
 import React, { PropTypes } from 'react'
-import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import UserList from './components/List'
 import UserSearch from './components/Search'
 import UserModal from './components/Modal'
-import './user.css'
 
 const User = ({ location, dispatch, user }) => {
   const {
-    loading, list, pagination,
-    currentItem, modalVisible, modalType,
+    loading, list, pagination, currentItem,
+    modalVisible, modalType, modalConfirmLoading,
   } = user
 
   const { field, keyword } = location.query
@@ -18,6 +16,7 @@ const User = ({ location, dispatch, user }) => {
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
     visible: modalVisible,
+    confirmLoading: modalConfirmLoading,
     onOk(data) {
       dispatch({ type: `user/${modalType}`, payload: data })
     },
@@ -30,14 +29,15 @@ const User = ({ location, dispatch, user }) => {
     dataSource: list,
     loading,
     pagination,
-    onPageChange(page) {
-      dispatch(routerRedux.push({
-        pathname: '/user',
-        query: {
+    onPageChange(page, filters) {
+      dispatch({
+        type: 'user/route',
+        payload: {
           page: page.current,
           'per-page': page.pageSize,
+          ...filters,
         },
-      }))
+      })
     },
     onDeleteItem(id) {
       dispatch({ type: 'user/delete', payload: id })
@@ -57,7 +57,10 @@ const User = ({ location, dispatch, user }) => {
     field,
     keyword,
     onSearch(fieldsValue) {
-      dispatch({ type: 'user/query', payload: fieldsValue })
+      dispatch({
+        type: 'user/route',
+        payload: { ...fieldsValue, page: 1 },
+      })
     },
     onAdd() {
       dispatch({
