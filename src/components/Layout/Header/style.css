@@ -1,0 +1,26 @@
+.App-header {
+  box-shadow: 4px 4px 40px 0 rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.App-header .ant-menu-horizontal {
+  border: none;
+}
+.App-header .ant-menu-horizontal > .ant-menu-submenu {
+  float: right;
+}
+
+.App-header .App-sider-btn {
+  height: 47px;
+  width: 47px;
+  line-height: 47px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.App-header .App-sider-btn:hover {
+  color: #108ee9;
+  background-color: #e7f4fd;
+}

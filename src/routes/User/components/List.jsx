@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm } from 'antd'
-import { pic } from '../../../utils'
+import { Dot } from '../../../components'
+import { pic, moment } from '../../../utils'
 
 const List = ({
   loading,
@@ -29,6 +30,7 @@ const List = ({
       title: '创建时间',
       dataIndex: 'created_at',
       key: 'created_at',
+      render: text => <span><Dot type="success" />{moment(text * 1000).format('YYYY-MM-DD')}</span>,
     }, {
       title: '操作',
       key: 'operation',
