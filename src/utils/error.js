@@ -1,6 +1,12 @@
 import React from 'react'
 import { message } from 'antd'
 
+const reload = () => {
+  localStorage.setItem('QPUserId', '')
+  localStorage.setItem('QPToken', '')
+  location.reload()
+}
+
 const error = (err) => {
   message.destroy()
 
@@ -9,7 +15,7 @@ const error = (err) => {
     if (data.status === 401) {
       localStorage.setItem('QPUserId', '')
       message.error((
-        <span>{data.message}, <a onClick={() => location.reload()}>重新登陆</a></span>
+        <span>{data.message}, <a onClick={reload}>重新登陆</a></span>
       ), 0)
     } else {
       message.error(data.message || err.message)

@@ -14,11 +14,12 @@
 }
 
 .App-sider.light .App-switch-theme {
-  background: #fff;
+  background: #fafafa;
   border-top: solid 1px #f8f8f8;
 }
 
 .App-sider .App-sider-logo {
+  display: block;
   text-align: center;
   height: 40px;
   line-height: 40px;
@@ -35,6 +36,7 @@
 }
 
 .App-sider .App-sider-logo span {
+  color: #000;
   vertical-align: text-bottom;
   font-size: 16px;
   text-transform: uppercase;
@@ -67,10 +69,6 @@
   min-width: 14px;
   margin-right: 8px;
   font-size: 14px;
-}
-
-.App-sider .ant-menu {
-  transition: all .3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .App-sider .ant-menu .ant-menu-item,

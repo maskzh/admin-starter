@@ -50,8 +50,8 @@ const login = ({
           </Button>
         </div>
         <p>
-          <span>账号：guest</span>
-          <span>密码：guest</span>
+          <span>账号：15968861678</span>
+          <span>密码：123456</span>
         </p>
       </form>
     </div>

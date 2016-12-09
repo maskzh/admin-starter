@@ -27,10 +27,10 @@ const getMenus = (menuArray, siderFold, parentPath = '/') =>
 
 const Sider = ({ siderFold, darkTheme, location, changeTheme }) =>
   <div>
-    <div className="App-sider-logo">
+    <Link className="App-sider-logo" to="/">
       <img src="//img.jkbsimg.com/logo.jpg" alt="logo" />
       {siderFold ? '' : <span>轻派体验中心</span>}
-    </div>
+    </Link>
     <Menu
       mode={siderFold ? 'vertical' : 'inline'}
       theme={darkTheme ? 'dark' : 'light'}
