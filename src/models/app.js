@@ -70,13 +70,6 @@ export default {
         login: false,
       }
     },
-    loginFail(state) {
-      return {
-        ...state,
-        login: false,
-        loginButtonLoading: false,
-      }
-    },
     showLoginButtonLoading(state) {
       return {
         ...state,

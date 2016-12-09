@@ -3,14 +3,14 @@ import { Router, Route, IndexRedirect } from 'dva/router'
 import App from './routes/App'
 import Error from './routes/Error'
 import Dashboard from './routes/Dashboard'
-// import Users from './routes/users'
+import User from './routes/User'
 
 const AppRouter = ({ history }) =>
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRedirect to="/dashboard" />
       <Route path="dashboard" component={Dashboard} />
-      {/* <Route path="/users" component={Users} /> */}
+      <Route path="user" component={User} />
       <Route path="*" component={Error} />
     </Route>
   </Router>

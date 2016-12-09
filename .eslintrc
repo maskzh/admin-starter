@@ -3,18 +3,15 @@
   "extends": "eslint-config-airbnb",
   "parser": "babel-eslint",
   "rules": {
+    # "comma-dangle": 0,
     "semi": [2, "never"], # 不允许分号
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], # js 扩展名
+    "no-underscore-dangle": 0, # 允许 _
     "react/jsx-first-prop-new-line": 0, # 属性不需另起一行
     "jsx-a11y/no-static-element-interactions": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], # js 扩展名
 
-    # "comma-dangle": 0,
-    # "no-console": 0,
-    # "no-alert": 0,
     # "id-length": 0,
-
     # "no-param-reassign": [2, { "props": false }], # 参数不可修改，属性可修改
-    # "no-underscore-dangle": 0,                    # 允许 _
     # "global-require": 0,
     # "no-class-assign": 0,
     # "react/prop-types": 0,

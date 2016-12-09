@@ -5,7 +5,7 @@ export default [
     icon: 'laptop',
   },
   {
-    key: 'users',
+    key: 'user',
     name: '用户管理',
     icon: 'user',
   },
