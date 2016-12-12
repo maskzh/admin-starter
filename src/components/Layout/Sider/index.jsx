@@ -29,7 +29,7 @@ const Sider = ({ siderFold, darkTheme, location, changeTheme }) =>
   <div>
     <Link className="App-sider-logo" to="/">
       <img src="//img.jkbsimg.com/logo.jpg" alt="logo" />
-      {siderFold ? '' : <span>体验中心</span>}
+      {siderFold ? '' : <span>Admin</span>}
     </Link>
     <Menu
       mode={siderFold ? 'vertical' : 'inline'}

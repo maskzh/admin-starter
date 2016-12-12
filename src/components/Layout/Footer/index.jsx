@@ -3,7 +3,7 @@ import './style.css'
 
 const Footer = () =>
   <div className="App-footer">
-    体验中心 版权所有 © 2016 由 maskzh 支持
+    Admin by maskzh © 2016
   </div>
 
 export default Footer
