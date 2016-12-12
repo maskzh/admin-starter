@@ -1,7 +1,7 @@
-import Dot from './Dot'
-import SPanel from './SPanel'
+import Layout from './Layout'
+import SidePanel from './SidePanel'
 
 export {
-  Dot,
-  SPanel,
+  Layout,
+  SidePanel,
 }

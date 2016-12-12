@@ -3,11 +3,13 @@ import { connect } from 'dva'
 import UserList from './components/List'
 import UserSearch from './components/Search'
 import UserModal from './components/Modal'
+import UserSide from './components/Side'
 
 const User = ({ location, dispatch, user }) => {
   const {
     loading, list, pagination, currentItem,
     modalVisible, modalType, modalConfirmLoading,
+    sideVisible,
   } = user
 
   const { field, keyword } = location.query
@@ -51,6 +53,9 @@ const User = ({ location, dispatch, user }) => {
         },
       })
     },
+    onShowItem(item) {
+      dispatch({ type: 'user/showSide', payload: { currentItem: item } })
+    },
   }
 
   const userSearchProps = {
@@ -70,11 +75,20 @@ const User = ({ location, dispatch, user }) => {
     },
   }
 
+  const userSideProps = {
+    visible: sideVisible,
+    onDismiss() {
+      dispatch({ type: 'user/hideSide' })
+    },
+    width: '50%',
+  }
+
   return (
     <div className="App-content-inner">
       <UserSearch {...userSearchProps} />
       <UserList {...userListProps} />
       <UserModal {...userModalProps} />
+      <UserSide {...userSideProps} />
     </div>
   )
 }

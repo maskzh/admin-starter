@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm } from 'antd'
-import { Dot } from '../../../components'
 import { pic, moment } from '../../../utils'
 
 const List = ({
@@ -10,6 +9,7 @@ const List = ({
   onPageChange,
   onDeleteItem,
   onEditItem,
+  onShowItem,
 }) => {
   const columns = [
     {
@@ -30,13 +30,15 @@ const List = ({
       title: '创建时间',
       dataIndex: 'created_at',
       key: 'created_at',
-      render: text => <span><Dot type="success" />{moment(text * 1000).format('YYYY-MM-DD')}</span>,
+      render: text => <span>{moment(text * 1000).format('YYYY-MM-DD')}</span>,
     }, {
       title: '操作',
       key: 'operation',
-      width: 100,
+      width: 150,
       render: (text, record) => (
         <p>
+          <a onClick={() => onShowItem(record)}>查看</a>
+          <span className="ant-divider" />
           <a onClick={() => onEditItem(record)}>编辑</a>
           <span className="ant-divider" />
           <Popconfirm title="确定要删除吗？" onConfirm={() => onDeleteItem(record.id)}>
@@ -67,6 +69,7 @@ List.propTypes = {
   onPageChange: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
+  onShowItem: PropTypes.func,
   dataSource: PropTypes.arrayOf(Object),
   loading: PropTypes.bool,
   pagination: PropTypes.shape(Object),

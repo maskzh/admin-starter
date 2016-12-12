@@ -14,6 +14,7 @@ export default {
     modalVisible: false,
     modalType: 'create',
     modalConfirmLoading: false,
+    sideVisible: false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -122,13 +123,19 @@ export default {
       return { ...state, ...action.payload, modalVisible: true }
     },
     hideModal(state) {
-      return { ...state, modalVisible: false, modalConfirmLoading: false }
+      return { ...state, currentItem: {}, modalVisible: false, modalConfirmLoading: false }
     },
     showModalConfirmLoading(state) {
       return { ...state, modalConfirmLoading: true }
     },
     hideModalConfirmLoading(state) {
       return { ...state, modalConfirmLoading: false }
+    },
+    showSide(state, action) {
+      return { ...state, ...action.payload, sideVisible: true }
+    },
+    hideSide(state) {
+      return { ...state, currentItem: {}, sideVisible: false }
     },
   },
 

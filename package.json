@@ -32,6 +32,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://api.jkbsapp.com/",
+  "proxy": "http://api.i.jkbs365.com/",
   "homepage": "https://qianpai.com"
 }

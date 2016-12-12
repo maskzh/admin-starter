@@ -11,6 +11,7 @@ const formItemLayout = {
 const modal = ({
   visible,
   item = {},
+  type,
   confirmLoading,
   onOk,
   onCancel,
@@ -32,7 +33,7 @@ const modal = ({
   }
 
   const modalOpts = {
-    title: '修改用户',
+    title: type === 'create' ? '添加用户' : '修改用户',
     visible,
     confirmLoading,
     onOk: handleOk,
@@ -70,6 +71,7 @@ modal.propTypes = {
   visible: PropTypes.bool,
   confirmLoading: PropTypes.bool,
   form: PropTypes.shape(Object),
+  type: PropTypes.string,
   item: PropTypes.shape(Object),
   onOk: PropTypes.func,
   onCancel: PropTypes.func,

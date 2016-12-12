@@ -29,12 +29,12 @@ const Sider = ({ siderFold, darkTheme, location, changeTheme }) =>
   <div>
     <Link className="App-sider-logo" to="/">
       <img src="//img.jkbsimg.com/logo.jpg" alt="logo" />
-      {siderFold ? '' : <span>轻派体验中心</span>}
+      {siderFold ? '' : <span>体验中心</span>}
     </Link>
     <Menu
       mode={siderFold ? 'vertical' : 'inline'}
       theme={darkTheme ? 'dark' : 'light'}
-      defaultSelectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'dashboard']}
+      selectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'dashboard']}
     >
       {getMenus(menu, siderFold)}
     </Menu>

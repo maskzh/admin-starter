@@ -25,7 +25,7 @@ const login = ({
     <div className="Login-form">
       <div className="Login-logo">
         <img src="//img.jkbsimg.com/logo.jpg" width="42" height="42" alt="logo" />
-        <span>轻派体验中心</span>
+        <span>体验中心</span>
       </div>
       <form>
         <FormItem hasFeedback>

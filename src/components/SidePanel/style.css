@@ -1,0 +1,27 @@
+.SidePanel.fold {
+  transform: translateX(0);
+}
+
+.SidePanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  height: 100%;
+  min-width: 40%;
+  max-width: 100%;
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  transition: transform .3s ease;
+  transform: translateX(120%);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.SidePanel .SidePanel-header {
+  padding: 20px;
+}
+.SidePanel .SidePanel-body {
+  padding: 20px;
+  padding-top: 0;
+}
