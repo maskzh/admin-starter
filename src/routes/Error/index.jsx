@@ -3,7 +3,7 @@ import { Icon } from 'antd'
 import './style.css'
 
 const Error = () =>
-  <div className="content-inner">
+  <div className="App-content-inner">
     <div className="Error">
       <Icon type="frown-o" />
       <h1>404 Not Found</h1>
