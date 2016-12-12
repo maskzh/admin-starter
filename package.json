@@ -1,7 +1,21 @@
 {
-  "name": "qingpai",
+  "name": "admin-starter",
   "version": "0.1.0",
   "private": true,
+  "author": "maskzh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maskzh/admin-starter/issues"
+  },
+  "homepage": "https://github.com/maskzh/admin-starter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maskzh/admin-starter.git"
+  },
+  "keywords": [
+    "antd",
+    "dva"
+  ],
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.11.1",
@@ -32,6 +46,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://api.i.jkbs365.com/",
-  "homepage": "https://qianpai.com"
+  "proxy": "http://api.i.jkbs365.com/"
 }
