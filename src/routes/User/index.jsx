@@ -80,7 +80,8 @@ const User = ({ location, dispatch, user }) => {
     onDismiss() {
       dispatch({ type: 'user/hideSide' })
     },
-    width: '50%',
+    width: '30%',
+    item: currentItem,
   }
 
   return (
