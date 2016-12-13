@@ -1,17 +1,12 @@
-import 'isomorphic-fetch'
+import fetch from 'dva/fetch'
 
-export default function request(url, options) {
-  const token = localStorage.getItem('QPToken')
-  let op = {
+export default function request(url, options = {}) {
+  const op = {
+    ...options,
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'access-token': token,
+      'access-token': localStorage.getItem('QPToken'),
+      ...options.headers,
     },
-  }
-
-  if (options && options.method && options.method.toLowerCase() !== 'get') {
-    op = { ...op, ...options, body: JSON.stringify(options.body) }
   }
 
   return fetch(url, op)

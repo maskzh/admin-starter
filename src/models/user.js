@@ -1,4 +1,5 @@
 import { routerRedux } from 'dva/router'
+import { parse } from 'qs'
 import { create, remove, update, query } from '../services/user'
 import { error as errorHandler } from '../utils'
 
@@ -47,7 +48,7 @@ export default {
       yield put({ type: 'showLoading' })
       let queryData = yield select(({ user }) => user.query)
       queryData = { ...queryData, ...payload }
-      const { data, error } = yield call(query, queryData)
+      const { data, error } = yield call(query, parse(queryData))
       if (data) {
         yield put({
           type: 'querySuccess',
@@ -61,16 +62,6 @@ export default {
             },
           },
         })
-      } else {
-        yield put({ type: 'hideLoading' })
-        errorHandler(error)
-      }
-    },
-    * delete({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' })
-      const { data, error } = yield call(remove, payload)
-      if (data) {
-        yield put({ type: 'query', payload: {} })
       } else {
         yield put({ type: 'hideLoading' })
         errorHandler(error)
@@ -93,9 +84,21 @@ export default {
       const { data, error } = yield call(update, id, payload)
       if (data) {
         yield put({ type: 'hideModal' })
-        yield put({ type: 'query', payload: {} })
+        yield put({ type: 'updateSuccess', payload: data.data })
       } else {
         yield put({ type: 'hideModalConfirmLoading' })
+        errorHandler(error)
+      }
+    },
+    * delete({ payload }, { call, put, select }) {
+      yield put({ type: 'showLoading' })
+      const { data, error } = yield call(remove, payload)
+      if (data) {
+        yield put({ type: 'deleteSuccess', payload })
+        const len = yield select(({ user }) => user.list.length)
+        if (!len) yield put({ type: 'query', payload: {} })
+      } else {
+        yield put({ type: 'hideLoading' })
         errorHandler(error)
       }
     },
@@ -118,6 +121,19 @@ export default {
         pagination: { ...state.pagination, ...action.payload.pagination },
         loading: false,
       }
+    },
+    updateSuccess(state, action) {
+      const list = state.list.map((item) => {
+        if (item.id === action.payload.id) {
+          return { ...item, ...action.payload }
+        }
+        return item
+      })
+      return { ...state, list }
+    },
+    deleteSuccess(state, action) {
+      const list = state.list.filter(user => user.id !== action.payload)
+      return { ...state, list, loading: false }
     },
     showModal(state, action) {
       return { ...state, ...action.payload, modalVisible: true }

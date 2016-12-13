@@ -88,7 +88,7 @@ const User = ({ location, dispatch, user }) => {
     <div className="App-content-inner">
       <UserSearch {...userSearchProps} />
       <UserList {...userListProps} />
-      <UserModal {...userModalProps} />
+      {modalVisible ? <UserModal {...userModalProps} /> : null}
       <UserSide {...userSideProps} />
     </div>
   )
