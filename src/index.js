@@ -1,5 +1,5 @@
 import dva from 'dva'
-import { browserHistory } from 'dva/router'
+// import { browserHistory } from 'dva/router'
 
 import errorHandler from './utils/error'
 import Router from './router'
@@ -11,7 +11,7 @@ import './index.css'
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
+  // history: browserHistory,
   onError(error) { errorHandler(error) },
 })
 
