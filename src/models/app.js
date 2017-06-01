@@ -1,5 +1,7 @@
-import { login, userInfo, logout } from '../services/app'
-import { error as errorHandler } from '../utils'
+import store from 'store'
+import { login, logout } from '../services/app'
+import { get as getUserInfo } from '../services/user'
+import { errHandler } from '../utils'
 
 export default {
   namespace: 'app',
@@ -7,58 +9,54 @@ export default {
     login: false,
     loading: false,
     user: {},
-    siderFold: localStorage.getItem('QPSiderFold') === 'true',
-    darkTheme: localStorage.getItem('QPDarkTheme') === 'true',
+    siderFold: store.get('siderFold') === true,
+    darkTheme: store.get('darkTheme') === true,
   },
   subscriptions: {
     setup({ dispatch }) {
-      const userId = localStorage.getItem('QPUserId')
+      const userId = store.get('userId')
       if (userId) {
-        dispatch({ type: 'queryUser', payload: userId })
+        dispatch({ type: 'getUserInfo', payload: userId })
       }
     },
   },
   effects: {
     * login({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const { data, error } = yield call(login, payload)
+      const { data, err } = yield call(login, payload)
       if (data) {
-        yield put({ type: 'loginSuccess', payload: { ...data.data, token: data.message } })
+        yield put({ type: 'loginSuccess', payload: data })
       } else {
         yield put({ type: 'hideLoading' })
-        errorHandler(error)
+        errHandler(err)
       }
     },
-    * queryUser({ payload }, { call, put }) {
+    * getUserInfo({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const { data, error } = yield call(userInfo, payload)
+      const { data, err } = yield call(getUserInfo, payload)
       if (data) {
-        yield put({ type: 'loginSuccess', payload: data.data })
+        yield put({ type: 'loginSuccess', payload: data })
       } else {
         yield put({ type: 'hideLoading' })
-        errorHandler(error)
+        errHandler(err)
       }
     },
     * logout({ payload }, { call, put }) {
-      const { data, error } = yield call(logout, payload)
+      const { data, err } = yield call(logout, payload)
       if (data) {
+        store.remove('token', '')
+        store.remove('userId', '')
         yield put({ type: 'logoutSuccess' })
       } else {
-        errorHandler(error)
+        errHandler(err)
       }
-    },
-    * switchSider({ payload }, { put }) {
-      yield put({ type: 'handleSwitchSider' })
-    },
-    * changeTheme({ payload }, { put }) {
-      yield put({ type: 'handleChangeTheme' })
     },
   },
   reducers: {
     loginSuccess(state, action) {
       if (action.payload.token) {
-        localStorage.setItem('QPToken', action.payload.token)
-        localStorage.setItem('QPUserId', action.payload.id)
+        store.set('token', action.payload.token)
+        store.set('userId', action.payload.id)
       }
       return {
         ...state,
@@ -68,38 +66,21 @@ export default {
       }
     },
     logoutSuccess(state) {
-      localStorage.setItem('QPToken', '')
-      localStorage.setItem('QPUserId', '')
-      return {
-        ...state,
-        login: false,
-      }
+      return { ...state, login: false }
     },
     showLoading(state) {
-      return {
-        ...state,
-        loading: true,
-      }
+      return { ...state, loading: true }
     },
     hideLoading(state) {
-      return {
-        ...state,
-        loading: false,
-      }
+      return { ...state, loading: false }
     },
-    handleSwitchSider(state) {
-      localStorage.setItem('QPSiderFold', !state.siderFold)
-      return {
-        ...state,
-        siderFold: !state.siderFold,
-      }
+    switchSider(state) {
+      store.set('siderFold', !state.siderFold)
+      return { ...state, siderFold: !state.siderFold }
     },
-    handleChangeTheme(state) {
-      localStorage.setItem('QPDarkTheme', !state.darkTheme)
-      return {
-        ...state,
-        darkTheme: !state.darkTheme,
-      }
+    changeTheme(state) {
+      store.set('darkTheme', !state.darkTheme)
+      return { ...state, darkTheme: !state.darkTheme }
     },
   },
 }

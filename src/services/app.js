@@ -1,7 +1,7 @@
-import { fetch } from '../utils'
+import { request } from '../utils'
 
 export async function login(params) {
-  return fetch('/auth/login', {
+  return request('/auth/login', {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
@@ -9,7 +9,7 @@ export async function login(params) {
 }
 
 export async function logout(params) {
-  return fetch('/auth/logout', {
+  return request('/auth/logout', {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
@@ -17,5 +17,5 @@ export async function logout(params) {
 }
 
 export async function userInfo(userId) {
-  return fetch(`/user/${userId}`)
+  return request(`/user/${userId}`)
 }

@@ -1,5 +1,6 @@
-@import "../node_modules/css-kit/lib/toolkit.css";
-@import "../node_modules/antd/dist/antd.css";
+@import "~css-kit/dist/csskit.css";
+@import "~antd/dist/antd.css";
+
 body {
   height: 100%;
   overflow-y: hidden;

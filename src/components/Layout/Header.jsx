@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Menu, Icon } from 'antd'
-import './style.css'
+import './Header.css'
 
 const SubMenu = Menu.SubMenu
 
@@ -26,10 +27,10 @@ const Header = ({ user, logout, switchSider, siderFold }) => {
 }
 
 Header.propTypes = {
-  user: PropTypes.shape(Object),
-  logout: PropTypes.func,
-  switchSider: PropTypes.func,
-  siderFold: PropTypes.bool,
+  user: PropTypes.shape(Object).isRequired,
+  logout: PropTypes.func.isRequired,
+  switchSider: PropTypes.func.isRequired,
+  siderFold: PropTypes.bool.isRequired,
 }
 
 export default Header

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Row, Col, Card } from 'antd'
-import Sale from './components/Sale'
-import './style.css'
+import Sale from '../components/Dashboard/Sale'
+import './Dashboard.css'
 
-const Dashboard = () =>
+const Dashboard = () => (
   <div>
     <Row gutter={24}>
       <Col lg={6} md={6}>
@@ -45,5 +45,6 @@ const Dashboard = () =>
       </Col>
     </Row>
   </div>
+)
 
 export default Dashboard

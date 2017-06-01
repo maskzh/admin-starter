@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Form, Input } from 'antd'
 import sha1 from 'sha1'
-import './style.css'
+import './Login.css'
 
 const FormItem = Form.Item
 
@@ -59,8 +60,8 @@ const login = ({
 }
 
 login.propTypes = {
-  form: PropTypes.shape(Object),
-  onOk: PropTypes.func,
+  form: PropTypes.shape(Object).isRequired,
+  onOk: PropTypes.func.isRequired,
 }
 
 export default Form.create()(login)

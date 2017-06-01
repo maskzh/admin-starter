@@ -1,7 +1,7 @@
 import dva from 'dva'
 // import { browserHistory } from 'dva/router'
 
-import errorHandler from './utils/error'
+import { errHandler } from './utils'
 import Router from './router'
 
 import modelApp from './models/app'
@@ -12,7 +12,7 @@ import './index.css'
 // 1. Initialize
 const app = dva({
   // history: browserHistory,
-  onError(error) { errorHandler(error) },
+  onError(error) { errHandler(error) },
 })
 
 // 2. Model

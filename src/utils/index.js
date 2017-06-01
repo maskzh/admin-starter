@@ -1,14 +1,13 @@
 import moment from 'moment'
 import classnames from 'classnames'
-import error from './error'
-import fetch from './fetch'
-import pic from './pic'
-
+import errHandler from './err_handler'
+import request from './request'
+import cloudPic from './cloud_pic'
 
 export {
   moment,
   classnames,
-  error,
-  fetch,
-  pic,
+  errHandler,
+  request,
+  cloudPic,
 }

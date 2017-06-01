@@ -1,21 +1,18 @@
-import { routerRedux } from 'dva/router'
 import { parse } from 'qs'
-import { create, remove, update, query } from '../services/user'
-import { error as errorHandler } from '../utils'
+import store from 'store'
+import { routerRedux } from 'dva/router'
+import { query, get, create, remove, update } from '../services/user'
+import { errHandler } from '../utils'
 
 export default {
   namespace: 'user',
   state: {
-    query: {
-      'per-page': 10,
-    },
+    query: {},
     list: [],
+    item: {},
     loading: false,
-    currentItem: {},
+    formType: 'create',
     modalVisible: false,
-    modalType: 'create',
-    modalConfirmLoading: false,
-    sideVisible: false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -30,8 +27,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen((location) => {
-        const userId = localStorage.getItem('QPUserId')
-        if (userId && location.pathname === '/user') {
+        if (store.get('token') && location.pathname === '/user/list') {
           dispatch({ type: 'query', payload: location.query })
         }
       })
@@ -39,74 +35,102 @@ export default {
   },
 
   effects: {
-    * route({ payload, action = 'push' }, { put, select }) {
-      yield put({ type: 'updateQuery', payload })
-      const queryData = yield select(({ user }) => user.query)
-      yield put(routerRedux[action]({ pathname: '/user', query: queryData }))
+    * route({ payload, action = 'push' }, { put }) {
+      yield put(routerRedux[action]({ pathname: '/user/list', query: payload }))
     },
-    * query({ payload }, { call, put, select }) {
+    * query({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      let queryData = yield select(({ user }) => user.query)
-      queryData = { ...queryData, ...payload }
-      const { data, error } = yield call(query, parse(queryData))
+      const { data, err } = yield call(query, parse(payload))
       if (data) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            query: queryData,
-            list: data.data.items,
-            pagination: {
-              current: data.data._meta.currentPage,
-              total: data.data._meta.totalCount,
-              pageSize: data.data._meta.perPage,
-            },
-          },
-        })
+        yield put({ type: 'setQuery', payload })
+        yield put({ type: 'querySuccess', payload: data })
       } else {
         yield put({ type: 'hideLoading' })
-        errorHandler(error)
+        errHandler(err)
       }
     },
-    * create({ payload }, { call, put }) {
-      yield put({ type: 'showModalConfirmLoading' })
-      const { data, error } = yield call(create, payload)
-      if (data) {
-        yield put({ type: 'hideModal' })
-        yield put({ type: 'query', payload: {} })
-      } else {
-        yield put({ type: 'hideModalConfirmLoading' })
-        errorHandler(error)
-      }
-    },
-    * update({ payload }, { select, call, put }) {
-      yield put({ type: 'showModalConfirmLoading' })
-      const id = yield select(({ user }) => user.currentItem.id)
-      const { data, error } = yield call(update, id, payload)
-      if (data) {
-        yield put({ type: 'hideModal' })
-        yield put({ type: 'updateSuccess', payload: data.data })
-      } else {
-        yield put({ type: 'hideModalConfirmLoading' })
-        errorHandler(error)
-      }
-    },
-    * delete({ payload }, { call, put, select }) {
+    * create({ payload }, { call, put, select }) {
       yield put({ type: 'showLoading' })
-      const { data, error } = yield call(remove, payload)
+      const { data, err } = yield call(create, payload)
       if (data) {
-        yield put({ type: 'deleteSuccess', payload })
-        const len = yield select(({ user }) => user.list.length)
-        if (!len) yield put({ type: 'query', payload: {} })
+        yield put(routerRedux.goBack())
+        const _query = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+        yield put({ type: 'query', payload: _query })
+        yield put({ type: 'removeDraft', payload: data.id })
       } else {
         yield put({ type: 'hideLoading' })
-        errorHandler(error)
+        errHandler(err)
+      }
+    },
+    * update({ payload }, { call, put, select }) {
+      yield put({ type: 'showLoading' })
+      const { data, err } = yield call(update, payload.id, payload)
+      if (data) {
+        yield put(routerRedux.goBack())
+        const _query = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+        yield put({ type: 'query', payload: _query })
+      } else {
+        yield put({ type: 'hideLoading' })
+        errHandler(err)
+      }
+    },
+    * remove({ payload }, { call, put, select }) {
+      yield put({ type: 'showLoading' })
+      const { data, err } = yield call(remove, payload)
+      if (data) {
+        const _query = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+        yield put({ type: 'query', payload: _query })
+      } else {
+        yield put({ type: 'hideLoading' })
+        errHandler(err)
+      }
+    },
+    * show({ payload }, { put }) {
+      yield put(routerRedux.push({ pathname: `/user/${payload.id}/show`, state: payload }))
+    },
+    * showById({ payload }, { call, put }) {
+      yield put({ type: 'showLoading' })
+      const { data, err } = yield call(get, payload)
+      if (data) {
+        yield put({ type: 'hideLoading' })
+        yield put({ type: 'show', payload: data })
+      } else {
+        yield put({ type: 'hideLoading' })
+        errHandler(err)
+      }
+    },
+    * edit({ payload }, { put }) {
+      const { type, data } = payload
+      yield put({ type: 'setForm', payload })
+
+      if (type.indexOf('create') !== -1) {
+        yield put(routerRedux.push({ pathname: '/user/new' }))
+      } else {
+        yield put(routerRedux.push({ pathname: `/user/${data.id}/edit` }))
+      }
+    },
+    * editById({ payload }, { call, put }) {
+      yield put({ type: 'showLoading' })
+      const { data, err } = yield call(get, payload.id)
+      if (data) {
+        yield put({ type: 'hideLoading' })
+        yield put({ type: 'edit', payload: { type: payload.type, data } })
+      } else {
+        yield put({ type: 'hideLoading' })
+        errHandler(err)
       }
     },
   },
 
   reducers: {
-    updateQuery(state, action) {
-      return { ...state, query: { ...state.query, ...action.payload } }
+    setState(state, { payload }) {
+      return { ...state, ...payload }
+    },
+    setQuery(state, { payload }) {
+      return { ...state, query: payload }
+    },
+    setForm(state, { payload }) {
+      return { ...state, formType: payload.type, item: payload.data || {} }
     },
     showLoading(state) {
       return { ...state, loading: true }
@@ -114,45 +138,24 @@ export default {
     hideLoading(state) {
       return { ...state, loading: false }
     },
-    querySuccess(state, action) {
+    showModal(state, { payload }) {
+      return { ...state, formType: payload.type, item: payload.data || {}, modalVisible: true }
+    },
+    hideModal(state) {
+      return { ...state, item: {}, modalVisible: false }
+    },
+    querySuccess(state, { payload }) {
       return {
         ...state,
-        ...action.payload,
-        pagination: { ...state.pagination, ...action.payload.pagination },
+        list: payload.items,
+        pagination: {
+          ...state.pagination,
+          current: payload._meta.currentPage,
+          total: payload._meta.totalCount,
+          pageSize: payload._meta.perPage,
+        },
         loading: false,
       }
     },
-    updateSuccess(state, action) {
-      const list = state.list.map((item) => {
-        if (item.id === action.payload.id) {
-          return { ...item, ...action.payload }
-        }
-        return item
-      })
-      return { ...state, list }
-    },
-    deleteSuccess(state, action) {
-      const list = state.list.filter(user => user.id !== action.payload)
-      return { ...state, list, loading: false }
-    },
-    showModal(state, action) {
-      return { ...state, ...action.payload, modalVisible: true }
-    },
-    hideModal(state) {
-      return { ...state, currentItem: {}, modalVisible: false, modalConfirmLoading: false }
-    },
-    showModalConfirmLoading(state) {
-      return { ...state, modalConfirmLoading: true }
-    },
-    hideModalConfirmLoading(state) {
-      return { ...state, modalConfirmLoading: false }
-    },
-    showSide(state, action) {
-      return { ...state, ...action.payload, sideVisible: true }
-    },
-    hideSide(state) {
-      return { ...state, currentItem: {}, sideVisible: false }
-    },
   },
-
 }

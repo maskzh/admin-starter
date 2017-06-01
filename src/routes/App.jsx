@@ -1,16 +1,16 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import { Spin } from 'antd'
-import Login from '../Login'
-import { Header, Bread, Footer, Sider } from '../../components/Layout'
-import './style.css'
+import Login from './Login'
+import { Header, Bread, Footer, Sider } from '../components/Layout'
+import './App.css'
 
-const App = ({ children, location, dispatch, app }) => {
-  const { login, loading, loginButtonLoading, user, siderFold, darkTheme } = app
+const App = ({ children, location, routes, params, dispatch, app }) => {
+  const { login, loading, user, siderFold, darkTheme } = app
   const loginProps = {
     loading,
-    loginButtonLoading,
     onOk(data) {
       dispatch({ type: 'app/login', payload: data })
     },
@@ -43,7 +43,7 @@ const App = ({ children, location, dispatch, app }) => {
       </aside>
       <div className="App-main">
         <Header {...headerProps} />
-        <Bread location={location} />
+        <Bread routes={routes} params={params} />
         <div className="App-container">
           <div className="App-content">
             {children}
@@ -61,10 +61,12 @@ const App = ({ children, location, dispatch, app }) => {
 }
 
 App.propTypes = {
-  children: PropTypes.node,
-  location: PropTypes.shape(Object),
-  dispatch: PropTypes.func,
-  app: PropTypes.shape(Object),
+  children: PropTypes.node.isRequired,
+  location: PropTypes.shape(Object).isRequired,
+  routes: PropTypes.arrayOf(Object).isRequired,
+  params: PropTypes.shape(Object).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  app: PropTypes.shape(Object).isRequired,
 }
 
 export default connect(({ app }) => ({ app }))(App)
