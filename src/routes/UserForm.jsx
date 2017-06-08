@@ -5,8 +5,10 @@ import { routerRedux } from 'dva/router'
 import { Button } from 'antd'
 import Form from '../components/User/Form'
 
-const UserForm = ({ user, dispatch }) => {
-  const { item: data, loading, formType } = user
+const UserForm = ({ user, dispatch, location }) => {
+  const { loading } = user
+  const data = location.state || {}
+  const formType = location.pathname.split('/').pop()
 
   const title = formType.indexOf('create') !== -1 ? '新增用户' : '修改用户'
   const back = () => dispatch(routerRedux.goBack())
@@ -38,6 +40,7 @@ const UserForm = ({ user, dispatch }) => {
 UserForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   user: PropTypes.shape(Object).isRequired,
+  location: PropTypes.shape(Object).isRequired,
 }
 
 export default connect(({ user }) => ({ user }))(UserForm)

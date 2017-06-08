@@ -6,8 +6,11 @@ import { Button } from 'antd'
 import Detail from '../components/User/Detail'
 
 
-const UserDetail = ({ dispatch, location }) => {
+const UserDetail = ({ dispatch, location, params }) => {
+  const { id } = params
   const { state: data } = location
+
+  if (!data) dispatch({ type: 'user/showById', payload: id, action: 'replace' })
 
   const back = () => dispatch(routerRedux.goBack())
 
@@ -25,8 +28,9 @@ const UserDetail = ({ dispatch, location }) => {
 }
 
 UserDetail.propTypes = {
-  location: PropTypes.shape(Object),
+  location: PropTypes.shape(Object).isRequired,
+  params: PropTypes.shape(Object).isRequired,
   dispatch: PropTypes.func,
 }
 
-export default connect()(UserDetail)
+export default connect(({ user }) => ({ user }))(UserDetail)

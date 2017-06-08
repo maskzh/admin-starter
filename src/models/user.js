@@ -9,10 +9,7 @@ export default {
   state: {
     query: {},
     list: [],
-    item: {},
     loading: false,
-    formType: 'create',
-    modalVisible: false,
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -22,12 +19,16 @@ export default {
       pageSize: 10,
       size: 'default',
     },
+
+    item: {},
+    formType: 'create',
+    modalVisible: false,
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen((location) => {
-        if (store.get('token') && location.pathname === '/user/list') {
+        if (store.get('token') && location.action !== 'POP' && location.pathname === '/user') {
           dispatch({ type: 'query', payload: location.query })
         }
       })
@@ -36,7 +37,7 @@ export default {
 
   effects: {
     * route({ payload, action = 'push' }, { put }) {
-      yield put(routerRedux[action]({ pathname: '/user/list', query: payload }))
+      yield put(routerRedux[action]({ pathname: '/user', query: payload }))
     },
     * query({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
@@ -85,15 +86,15 @@ export default {
         errHandler(err)
       }
     },
-    * show({ payload }, { put }) {
-      yield put(routerRedux.push({ pathname: `/user/${payload.id}/show`, state: payload }))
+    * show({ payload, action = 'push' }, { put }) {
+      yield put(routerRedux[action]({ pathname: `/user/${payload.id}/show`, state: payload }))
     },
-    * showById({ payload }, { call, put }) {
+    * showById({ payload, action }, { call, put }) {
       yield put({ type: 'showLoading' })
       const { data, err } = yield call(get, payload)
       if (data) {
         yield put({ type: 'hideLoading' })
-        yield put({ type: 'show', payload: data })
+        yield put({ type: 'show', payload: data, action })
       } else {
         yield put({ type: 'hideLoading' })
         errHandler(err)
@@ -101,12 +102,10 @@ export default {
     },
     * edit({ payload }, { put }) {
       const { type, data } = payload
-      yield put({ type: 'setForm', payload })
-
       if (type.indexOf('create') !== -1) {
-        yield put(routerRedux.push({ pathname: '/user/new' }))
+        yield put(routerRedux.push({ pathname: `/user/${type}` }))
       } else {
-        yield put(routerRedux.push({ pathname: `/user/${data.id}/edit` }))
+        yield put(routerRedux.push({ pathname: `/user/${data.id}/${type}`, state: data }))
       }
     },
     * editById({ payload }, { call, put }) {
@@ -129,9 +128,6 @@ export default {
     setQuery(state, { payload }) {
       return { ...state, query: payload }
     },
-    setForm(state, { payload }) {
-      return { ...state, formType: payload.type, item: payload.data || {} }
-    },
     showLoading(state) {
       return { ...state, loading: true }
     },
@@ -139,7 +135,7 @@ export default {
       return { ...state, loading: false }
     },
     showModal(state, { payload }) {
-      return { ...state, formType: payload.type, item: payload.data || {}, modalVisible: true }
+      return { ...state, formType: payload.type, item: payload.data, modalVisible: true }
     },
     hideModal(state) {
       return { ...state, item: {}, modalVisible: false }
